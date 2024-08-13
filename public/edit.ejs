@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Transação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Transação</h1>
+        <form action="/update-transacao" method="POST">
+            <input type="hidden" name="id" value="<%= transacao.id %>">
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo" required>
+                <option value="entrada" <%= transacao.tipo === 'entrada' ? 'selected' : '' %>>Entrada</option>
+                <option value="saida" <%= transacao.tipo === 'saida' ? 'selected' : '' %>>Saída</option>
+            </select>
+            <label for="valor">Valor:</label>
+            <input type="number" name="valor" id="valor" step="0.01" value="<%= transacao.valor %>" required>
+            <label for="data">Data:</label>
+            <input type="date" name="data" id="data" value="<%= transacao.data %>" required>
+            <label for="forma_pagamento">Forma de Pagamento:</label>
+            <input type="text" name="forma_pagamento" id="forma_pagamento" value="<%= transacao.forma_pagamento %>" required>
+            <label for="nome_do_item">Nome do Item:</label>
+            <input type="text" name="nome_do_item" id="nome_do_item" value="<%= transacao.NOME_DO_ITEM %>" required>
+            <button type="submit">Atualizar</button>
+        </form>
+        <form action="/" method="GET">
+            <button type="submit">Cancelar</button>
+        </form>
+    </div>
+</body>
+</html>
