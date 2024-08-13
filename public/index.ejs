@@ -1,0 +1,478 @@
+<!-- <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Financeiro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .show-hide button {
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .show-hide button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema Financeiro</h1>
+        <h2>Adicionar Transação</h2>
+        <form action="/add-transacao" method="POST">
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo" required>
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+            </select>
+            <label for="valor">Valor:</label>
+            <input type="number" name="valor" id="valor" step="0.01" required>
+            <label for="data">Data:</label>
+            <input type="date" name="data" id="data" required>
+            <label for="forma_pagamento">Forma de Pagamento:</label>
+            <input type="text" name="forma_pagamento" id="forma_pagamento" required>
+            <label for="nome_do_item">Nome do Item:</label>
+            <input type="text" name="nome_do_item" id="nome_do_item" required>
+            <button type="submit">Adicionar</button>
+        </form>
+        <h2>Transações</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                    <th>Forma de Pagamento</th>
+                    <th>Nome do Item</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% transacoes.forEach(transacao => { %>
+                    <tr>
+                        <td><%= transacao.tipo %></td>
+                        <td><%= transacao.valor %></td>
+                        <td><%= transacao.data %></td>
+                        <td><%= transacao.forma_pagamento %></td>
+                        <td><%= transacao.NOME_DO_ITEM %></td>
+                        <td>
+                            <form action="/edit-transacao/<%= transacao.id %>" method="GET" style="display:inline-block;">
+                                <button type="submit">Editar</button>
+                            </form>
+                            <form action="/delete-transacao" method="POST" style="display:inline-block;">
+                                <input type="hidden" name="id" value="<%= transacao.id %>">
+                                <button type="submit">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <h2>Resumo</h2>
+        <p><strong>Saldo Atual:</strong> <%= saldo %></p>
+        <p><strong>Total de Entradas:</strong> <%= total_entrada %></p>
+        <p><strong>Total de Saídas:</strong> <%= total_saida %></p>
+        <p><strong>Entradas Hoje:</strong> <%= total_entrada_dia %></p>
+        <p><strong>Saídas Hoje:</strong> <%= total_saida_dia %></p>
+        <p><strong>Entradas Esta Semana:</strong> <%= total_entrada_semana %></p>
+        <p><strong>Saídas Esta Semana:</strong> <%= total_saida_semana %></p>
+        <p><strong>Entradas Este Mês:</strong> <%= total_entrada_mes %></p>
+        <p><strong>Saídas Este Mês:</strong> <%= total_saida_mes %></p>
+        <form action="/fechar-caixa" method="POST">
+            <button type="submit">Fechar Caixa</button>
+        </form>
+        <h2>Pesquisar Transação</h2>
+        <form action="/search" method="GET">
+            <label for="nome_do_item">Nome do Item:</label>
+            <input type="text" name="nome_do_item" id="nome_do_item">
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Financeiro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .show-hide-btn {
+            background-color: #007bff;
+            color: #fff;
+            margin-top: 20px;
+        }
+        .edit {
+            background-color: #ffc107;
+            color: #fff;
+            margin-right: 5px;
+        }
+        .delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .edit, .delete {
+            padding: 5px 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f8f8;
+        }
+        .hidden {
+            display: none;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover, .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .main{
+            background: orangered;
+        }
+        .s11{
+            background: rgb(232, 235, 232);
+            color: rgb(6, 30, 243);
+        }
+        .s12{
+            background: rgb(15, 235, 62);            
+        }
+        .saldo-positivo {
+            background: rgb(15, 235, 62);
+            color: rgb(8, 32, 245);
+            font-size: 25px;
+        }
+        .saldo-negativo {
+            background: rgb(15, 235, 62);
+            color: red;
+            font-size: 25px;
+        }
+        .s13{
+            background: rgb(47, 236, 9);
+            color: white;
+        }
+        .s14{
+            background: orangered;
+            color: white;
+        }
+        .s15{
+            background: rgb(245, 241, 244);
+            color: rgb(6, 30, 243);
+        }
+        .s16{
+            background: rgb(6, 42, 248);
+            color: white;
+        }
+        .s17{
+            background: rgb(247, 6, 6);
+            color: white;
+        }
+        .salao{
+           text-align: right;
+           margin-top: 10px;
+           margin-right: 10px; 
+           border: none;          
+        }
+        a{
+            background:rgb(15, 235, 62);
+            font-size: 25px;
+            border: none;
+            cursor: pointer;
+        }
+        .meta{
+            background: blue;
+            margin-right: 10px;
+            color: white;
+            padding: 1px;
+            border: none;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="salao"><a class="meta" href="views/meta.ejs">Metas</a><a href="app.ejs">SALÃO</a></div>
+    <div class="container">
+        <h1 class="main">ESPAÇO BBC ESTÉTICA AUTOMOTIVA</h1>
+        <form action="/add-transacao" method="POST">
+            <label for="nome_do_item">Nome do Item:</label>
+            <input type="text" name="nome_do_item" id="nome_do_item" required>
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo">
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+            </select>
+            <label for="valor">Valor:</label>
+            <input type="number" name="valor" id="valor" step="0.01" required>
+            <label for="data">Data:</label>
+            <input type="date" name="data" id="data" required>
+            <label for="forma_pagamento">Forma de Pagamento:</label>
+            <select name="forma_pagamento" id="forma_pagamento">
+                <option value="pix">Pix</option>
+                <option value="cartao">Cartão</option>
+                <option value="dinheiro">Dinheiro</option>
+            </select>
+            <button type="submit">Adicionar Transação</button>
+        </form>
+        <h2 class="s11">Resumo Financeiro</h2>
+        <p class="<%= saldo > 0 ? 'saldo-positivo' : 'saldo-negativo' %>">Saldo: R$ <%= parseFloat(saldo).toFixed(2) %></p>
+        <p class="s13">Total de Entradas: R$ <%= parseFloat(total_entrada).toFixed(2) %></p>
+        <p class="s14">Total de Saídas: R$ - <%= parseFloat(total_saida).toFixed(2) %></p>
+        <h3 class="s15">Totais do Dia</h3>
+        <p class="s16">Entrada do Dia: R$ <%= parseFloat(total_entrada_dia).toFixed(2) %></p>
+        <p class="s17">Saída do Dia: R$ - <%= parseFloat(total_saida_dia).toFixed(2) %></p>
+        <button class="show-hide-btn" onclick="toggleTransactions()">Mostrar Transações</button>       
+        
+        
+        <table id="transaction-list" class="transaction-list hidden">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Transação</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                    <th>forma_pagamento</th>
+                    <th>Nome do Item</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (transacoes.length === 0) { %>
+                    <tr>
+                        <td colspan="3">Nenhuma transação encontrada.</td>
+                    </tr>
+                <% } else { %>
+                <% transacoes.forEach(function(transacao) { %>
+                    <tr>
+                        <td><%= transacao.id %></td>
+                        <td><%= transacao.tipo %></td>
+                        <td><%= transacao.valor %></td>
+                        <td><%= transacao.data %></td>
+                        <td><%= transacao.forma_pagamento %></td>
+                        <td><%= transacao.NOME_DO_ITEM %></td>
+                        <td>
+                            <button onclick="openEditModal('<%= JSON.stringify(transacao) %>')" class="edit"><i class="fas fa-edit"></i></button>
+                            <form id="delete-form-<%= transacao.id %>" action="/delete-transacao" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<%= transacao.id %>">
+                                <button type="submit" class="delete">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>; 
+                <% } %>
+            </tbody>
+        </table>
+        
+        
+        <form action="/fechar-caixa" method="POST">
+            <button type="submit">Fechar Caixa</button>
+        </form>
+    </div>
+
+    <!-- Modal for Editing -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Editar Transação</h2>
+            <form id="editForm" action="/update-transacao" method="POST">
+                <input type="hidden" name="id" id="edit-id">
+                <label for="edit-tipo">Tipo:</label>
+                <select name="tipo" id="edit-tipo" required>
+                    <option value="entrada">Entrada</option>
+                    <option value="saida">Saída</option>
+                </select>
+                <label for="edit-valor">Valor:</label>
+                <input type="number" name="valor" id="edit-valor" step="0.01" required>
+                <label for="edit-data">Data:</label>
+                <input type="date" name="data" id="edit-data" required>
+                <label for="edit-forma_pagamento">Forma de Pagamento:</label>
+                <input type="text" name="forma_pagamento" id="edit-forma_pagamento" required>
+                <label for="edit-nome_do_item">Nome do Item:</label>
+                <input type="text" name="nome_do_item" id="edit-nome_do_item" required>
+                <button type="submit">Atualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let transactionsVisible = false;
+
+        function toggleTransactions() {
+            const list = document.getElementById('transaction-list');
+            const button = document.querySelector('.show-hide-btn');
+            if (transactionsVisible) {
+                list.classList.add('hidden');
+                button.textContent = 'Mostrar Transações';
+            } else {
+                list.classList.remove('hidden');
+                button.textContent = 'Esconder Transações';
+            }
+            transactionsVisible = !transactionsVisible;
+        }
+
+        function openEditModal(transacao) {
+            document.getElementById('edit-id').value = transacao.id;
+            document.getElementById('edit-tipo').value = transacao.tipo;
+            document.getElementById('edit-valor').value = parseFloat(transacao.valor).toFixed(2);
+            document.getElementById('edit-data').value = transacao.data;
+            document.getElementById('edit-forma_pagamento').value = transacao.forma_pagamento;
+            document.getElementById('edit-nome_do_item').value = transacao.nome_do_item;
+        
+            const modal = document.getElementById('editModal');
+            modal.style.display = "block";
+        }
+        
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            modal.style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+    </script>
+</body>
+</html>
